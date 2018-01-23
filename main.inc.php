@@ -55,32 +55,30 @@ function piwibar_cookie_monster(){
 	$cookie2 = $data['url_link'];
 	$flag = 1;
 
-	if ($data['test_mode'] == '0') {
+	// If the cookie is not set we need to set it
+	if(!isset($_COOKIE[$cookie_name1]) || !isset($_COOKIE[$cookie_name2])) {
 
-		// If the cookie is not set we need to set it
-		if(!isset($_COOKIE[$cookie_name1]) || !isset($_COOKIE[$cookie_name2])) {
+		// Set it for thirty days
+		setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
+		setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
 
-			// Set it for thirty days
-			setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
-			setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
+	// If it is set we should check if a new notice should be shown
+	} else {
+		$old_cookie1 = $_COOKIE[$cookie_name1];
+		$old_cookie2 = $_COOKIE[$cookie_name2];
 
-		// If it is set we should check if a new notice should be shown
-		} else {
-			$old_cookie1 = $_COOKIE[$cookie_name1];
-			$old_cookie2 = $_COOKIE[$cookie_name2];
-
-			if($old_cookie1 == $data['msg'] && $old_cookie2 == $data['url_link']) {
-				$flag = 0;
-			}
-
-			// If the notice hasn't changed only the expiration is updated.
-			// If it has changed, it's all updated.
-			setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
-			setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
+		if($old_cookie1 == $data['msg'] && $old_cookie2 == $data['url_link']) {
+			$flag = 0;
 		}
 
-		define('PIWIBAR_COOKIE', $flag);
-	} else {
+		// If the notice hasn't changed only the expiration is updated.
+		// If it has changed, it's all updated.
+		setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
+		setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
+	}
+
+	if ($data['test_mode'] == '1') {
+
 		// Check if admin
 		$uid = $_SESSION['pwg_uid'];
 		$query = 'SELECT status FROM '.USER_INFOS_TABLE.' WHERE user_id ='.$uid.';';
@@ -89,8 +87,10 @@ function piwibar_cookie_monster(){
 		if($row['status'] == 'webmaster' || $row['status'] == 'administrator') {
 			define('PIWIBAR_COOKIE', 1);
 		} else {
-			define('PIWIBAR_COOKIE', 0);
+			define('PIWIBAR_COOKIE', $flag);
 		}
+	} else {
+		define('PIWIBAR_COOKIE', $flag);
 	}
 }
 
