@@ -92,7 +92,7 @@
 
 		<div align="left" class="parent">
 			<div class="labels">
-				<label for="link">{'Background Color:'|translate}</label>
+				<label for="bg">{'Background Color:'|translate}</label>
 			</div>
 			<div class="inputs">
 				<input class="nice" size="70" type="text" name="bg" value="{$bg}" placeholder="#ff6600" />
@@ -102,7 +102,7 @@
 
 		<div align="left" class="parent">
 			<div class="labels">
-				<label for="link">{'Link Color:'|translate}</label>
+				<label for="link_color">{'Link Color:'|translate}</label>
 			</div>
 			<div class="inputs">
 				<input class="nice" size="70" type="text" name="link_color" value="{$link_color}" placeholder="#ffffff" />
@@ -112,7 +112,7 @@
 
 		<div align="left" class="parent">
 			<div class="labels">
-				<label for="logo">{'Open in new tab?'|translate}</label>
+				<label for="newtab">{'Open in new tab?'|translate}</label>
 			</div>
 			<div class="inputs">
         {if $newtab}
@@ -122,6 +122,22 @@
         <input type="radio" name="newtab" value="1">Yes
         <input type="radio" name="newtab" value="0" checked>No<br>
         {/if}
+			</div> <br>
+		</div>
+
+		<div align="left" class="parent">
+			<div class="labels">
+				<label for="logo">{'Test mode'|translate}</label>
+			</div>
+			<div class="inputs">
+        {if $test_mode}
+        <input type="radio" name="test_mode" value="1" checked>Yes
+        <input type="radio" name="test_mode" value="0">No<br>
+        {else}
+        <input type="radio" name="test_mode" value="1">Yes
+        <input type="radio" name="test_mode" value="0" checked>No<br>
+        {/if}
+        <pre>In test mode, the notification bar will always show for admins</pre>
 			</div> <br>
 		</div>
 	</fieldset>
