@@ -20,6 +20,8 @@
 				{/if}
     </div>
     <div class="hb-close-wrapper">
-        <a onclick="this.parentNode.parentNode.style.display='none';" class="icon-close">&#10006;</a>
+        {if $duration == 0}
+          <a onclick="this.parentNode.parentNode.style.display='none';" class="icon-close">&#10006;</a>
+        {/if}
     </div>
 </div>

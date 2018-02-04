@@ -60,24 +60,7 @@
 			<div class="inputs">
 				<input class="nice" size="70" type="text" name="url_link" value="{$url_link}" placeholder="www.gallery.com" />
         <pre>Clicking a button will take users to this link</pre>
-			</div> <br>
-		</div>
-
-		<div align="left" class="parent">
-			<div class="labels">
-				<label for="btn_color">{'Button Color:'|translate}</label>
-			</div>
-			<div class="inputs">
-				<input class="nice" size="70" type="text" name="btn_color" value="{$btn_color}" placeholder="#22af73" />
-			</div> <br>
-		</div>
-
-		<div align="left" class="parent">
-			<div class="labels">
-				<label for="btn_txt_color">{'Button Text Color:'|translate}</label>
-			</div>
-			<div class="inputs">
-				<input class="nice" size="70" type="text" name="btn_txt_color" value="{$btn_txt_color}" placeholder="#ffffff" />
+        <pre>To avoid problems ensure it is the full url, i.e. https://www.google.com</pre>
 			</div> <br>
 		</div>
 
@@ -90,23 +73,13 @@
 			</div> <br>
 		</div>
 
-		<div align="left" class="parent">
+    <div align="left" class="parent">
 			<div class="labels">
-				<label for="bg">{'Background Color:'|translate}</label>
+				<label for="duration">{'Duration:'|translate}</label>
 			</div>
 			<div class="inputs">
-				<input class="nice" size="70" type="text" name="bg" value="{$bg}" placeholder="#ff6600" />
-        <pre>Background color of the notification bar</pre>
-			</div> <br>
-		</div>
-
-		<div align="left" class="parent">
-			<div class="labels">
-				<label for="link_color">{'Link Color:'|translate}</label>
-			</div>
-			<div class="inputs">
-				<input class="nice" size="70" type="text" name="link_color" value="{$link_color}" placeholder="#ffffff" />
-        <pre>Color of the link</pre>
+        <input class="nice" size="70" type="text" name="duration" value="{$duration}" placeholder="leave empty to show once and done">
+        <pre>Show the message for x days.</pre>
 			</div> <br>
 		</div>
 
@@ -116,10 +89,10 @@
 			</div>
 			<div class="inputs">
         {if $newtab}
-        <input type="radio" name="newtab" value="1" checked>Yes
+        <input type="radio" name="newtab" value="1" checked>Yes&nbsp;&nbsp;
         <input type="radio" name="newtab" value="0">No<br>
         {else}
-        <input type="radio" name="newtab" value="1">Yes
+        <input type="radio" name="newtab" value="1">Yes&nbsp;&nbsp;
         <input type="radio" name="newtab" value="0" checked>No<br>
         {/if}
 			</div> <br>
@@ -131,13 +104,52 @@
 			</div>
 			<div class="inputs">
         {if $test_mode}
-        <input type="radio" name="test_mode" value="1" checked>Yes
+        <input type="radio" name="test_mode" value="1" checked>Yes&nbsp;&nbsp;
         <input type="radio" name="test_mode" value="0">No<br>
         {else}
-        <input type="radio" name="test_mode" value="1">Yes
+        <input type="radio" name="test_mode" value="1">Yes&nbsp;&nbsp;
         <input type="radio" name="test_mode" value="0" checked>No<br>
         {/if}
-        <pre>In test mode, the notification bar will always show for admins</pre>
+        <pre>In test mode, the notification bar will always show for admins & webmasters</pre>
+			</div> <br>
+		</div>
+  </fieldset>
+
+  <fieldset class="mainConf">
+    <legend>{'Colors'|translate}</legend>
+		<div align="left" class="parent">
+			<div class="labels">
+				<label for="btn_color">{'Button Color:'|translate}</label>
+			</div>
+			<div class="inputs">
+				<input class="nice" size="70" type="color" name="btn_color" value="{$btn_color}" placeholder="#22af73" />
+			</div> <br>
+		</div>
+
+		<div align="left" class="parent">
+			<div class="labels">
+				<label for="btn_txt_color">{'Button Text Color:'|translate}</label>
+			</div>
+			<div class="inputs">
+				<input class="nice" size="70" type="color" name="btn_txt_color" value="{$btn_txt_color}" placeholder="#ffffff" />
+			</div> <br>
+		</div>
+
+		<div align="left" class="parent">
+			<div class="labels">
+				<label for="bg">{'Background Color:'|translate}</label>
+			</div>
+			<div class="inputs">
+				<input class="nice" size="70" type="color" name="bg" value="{$bg}" placeholder="#ff6600" />
+			</div> <br>
+		</div>
+
+		<div align="left" class="parent">
+			<div class="labels">
+				<label for="link_color">{'Link Text Color:'|translate}</label>
+			</div>
+			<div class="inputs">
+				<input class="nice" size="70" type="color" name="link_color" value="{$link_color}" placeholder="#ffffff" />
 			</div> <br>
 		</div>
 	</fieldset>

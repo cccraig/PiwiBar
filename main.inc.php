@@ -49,45 +49,68 @@ function piwibar_lang_init(){
  */
 function piwibar_cookie_monster(){
 	$data = unserialize(conf_get_param(PIWIBAR_ID));
-	$cookie_name1 = 'piwibar_notification_bar_msg';
-	$cookie_name2 = 'piwibar_notification_bar_url';
-	$cookie1 = $data['msg'];
-	$cookie2 = $data['url_link'];
+	$cn = 'piwibar_notification_bar';
+	$duration = (isset($data['duration'])) ? $data['duration'] : 0;
+	$stop = ($duration != 0) ? (int)(86400 * $data['duration']) : 86400 * 365;
 	$flag = 1;
 
-	// If the cookie is not set we need to set it
-	if(!isset($_COOKIE[$cookie_name1]) || !isset($_COOKIE[$cookie_name2])) {
+	$info = json_encode([
+		'msg' 			=> $data['msg'],
+		'url_link'	=> $data['url_link'],
+		'duration' 	=> $duration,
+		'stop' 			=> $stop + time(),
+		'start'			=> time()
+	], true);
 
-		// Set it for thirty days
-		setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
-		setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
+	// If the cookie is not set we need to set it.
+	if(!isset($_COOKIE[$cn])) {
+
+		setcookie($cn, $info, time() + 86400 * 365, "/");
 
 	// If it is set we should check if a new notice should be shown
 	} else {
-		$old_cookie1 = $_COOKIE[$cookie_name1];
-		$old_cookie2 = $_COOKIE[$cookie_name2];
+		$old_cn = json_decode(stripslashes($_COOKIE[$cn]));
+		$ct = time();
 
-		if($old_cookie1 == $data['msg'] && $old_cookie2 == $data['url_link']) {
-			$flag = 0;
+		// If the message or url have changed reset cookie
+		if ($old_cn->msg != $data['msg'] || $old_cn->url_link != $data['url_link']) {
+
+			setcookie($cn, $info, time() + 86400 * 365, "/");
+
+		} else {
+
+			// Has the cookie specified show time expired?
+			if($old_cn->stop < $ct) {
+
+				// Was the original intention to show it for some period of time?
+				if($old_cn->duration != 0) {
+					$flag = 0;
+				}
+
+			} else {
+
+				// Was the original intention to show it once?
+				if($old_cn->duration == 0) {
+					$flag = 0;
+				}
+			}
 		}
-
-		// If the notice hasn't changed only the expiration is updated.
-		// If it has changed, it's all updated.
-		setcookie($cookie_name1, $cookie1, time() + (86400 * 30), "/");
-		setcookie($cookie_name2, $cookie2, time() + (86400 * 30), "/");
 	}
 
 	if ($data['test_mode'] == '1') {
 
-		// Check if admin
-		$uid = $_SESSION['pwg_uid'];
-		$query = 'SELECT status FROM '.USER_INFOS_TABLE.' WHERE user_id ='.$uid.';';
-		$row = pwg_db_fetch_assoc(pwg_query($query));
+		if (isset($_SESSION['pwg_uid'])) {
+			$uid = $_SESSION['pwg_uid'];
+			$query = 'SELECT status FROM '.USER_INFOS_TABLE.' WHERE user_id ='.$uid.';';
+			$row = pwg_db_fetch_assoc(pwg_query($query));
 
-		if($row['status'] == 'webmaster' || $row['status'] == 'administrator') {
-			define('PIWIBAR_COOKIE', 1);
+			if($row['status'] == 'webmaster' || $row['status'] == 'administrator') {
+				define('PIWIBAR_COOKIE', 1);
+			} else {
+				define('PIWIBAR_COOKIE', $flag);
+			}
 		} else {
-			define('PIWIBAR_COOKIE', $flag);
+			define('PIWIBAR_COOKIE', 0);
 		}
 	} else {
 		define('PIWIBAR_COOKIE', $flag);
