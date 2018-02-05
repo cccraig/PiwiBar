@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Piwigo Notification Bar
-Version: 0.0.5
+Version: 0.9
 Description: Enables a notification bar to appear based on specifications you provide
 Plugin URI:
 Author: cccraig
@@ -16,7 +16,7 @@ if (!defined('PHPWG_ROOT_PATH')) die('Hacking attempt!');
 define('PIWIBAR_ID',      basename(dirname(__FILE__)));
 define('PIWIBAR_PATH' ,   PHPWG_PLUGINS_PATH . PIWIBAR_ID . '/');
 define('PIWIBAR_ADMIN',   get_root_url() . 'admin.php?page=plugin-' . PIWIBAR_ID);
-define('PIWIBAR_VERSION', '0.0.5');
+define('PIWIBAR_VERSION', '0.9');
 
 
 
